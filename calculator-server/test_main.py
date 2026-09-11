@@ -5,7 +5,7 @@ client = TestClient(app)
 
 
 def test_basic_division():
-    r = client.post("/calculate", params={"expr": "30/4"})
+    r = client.post("/calculate", json={"expr": "30/4"})
     assert r.status_code == 200
     data = r.json()
     assert data["ok"] is True
@@ -13,7 +13,7 @@ def test_basic_division():
 
 
 def test_percent_subtraction():
-    r = client.post("/calculate", params={"expr": "100 - 6%"})
+    r = client.post("/calculate", json={"expr": "100 - 6%"})
     assert r.status_code == 200
     data = r.json()
     assert data["ok"] is True
@@ -21,7 +21,7 @@ def test_percent_subtraction():
 
 
 def test_standalone_percent():
-    r = client.post("/calculate", params={"expr": "6%"})
+    r = client.post("/calculate", json={"expr": "6%"})
     assert r.status_code == 200
     data = r.json()
     assert data["ok"] is True
@@ -29,8 +29,20 @@ def test_standalone_percent():
 
 
 def test_invalid_expr_returns_ok_false():
-    r = client.post("/calculate", params={"expr": "2**(3"})
+    r = client.post("/calculate", json={"expr": "2**(3"})
     assert r.status_code == 200
     data = r.json()
     assert data["ok"] is False
     assert "error" in data and data["error"] != ""
+
+def test_history():
+    r = client.get("/history")
+    assert r.status_code == 200
+
+    data = r.json()
+    assert isinstance(data, list)
+    assert len(data) > 0
+
+    assert "timestamp" in data[-1]
+    assert "expr" in data[-1]
+    assert "result" in data[-1]
