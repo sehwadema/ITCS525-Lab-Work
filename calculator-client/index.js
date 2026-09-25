@@ -6,9 +6,15 @@ calculateBtn.addEventListener("click", async () => {
     const expr = expressionInput.value;
 
     const response = await fetch(
-        `http://127.0.0.1:8000/calculate?expr=${encodeURIComponent(expr)}`,
+        "http://127.0.0.1:8000/calculate",
         {
-            method: "POST"
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                expr: expr
+            })
         }
     );
 
