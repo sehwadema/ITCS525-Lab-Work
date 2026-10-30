@@ -1,0 +1,25 @@
+Lab 9: Composing Docker Containers for Web Applications
+
+AI Interaction Record
+
+Note: The following prompts are concise summaries of my interactions with ChatGPT during Lab 9. They are not verbatim transcripts.
+
+1. Review my existing Lab 8 calculator project, which uses FastAPI for the backend and React for the frontend. Help me understand how to prepare the FastAPI backend for Docker Compose without changing its existing calculator functionality.
+
+2. Guide me through installing the required Python dependencies and exporting them to a requirements.txt file.
+
+3. Help me create a Dockerfile and .dockerignore for my FastAPI backend. Explain the purpose of each configuration and guide me through the process step by step.
+
+4. Help me create a compose.yaml file containing two services: a FastAPI backend and a MySQL 8.4 database. Configure the backend port mapping, database credentials, persistent storage, health check and service dependencies.
+
+5. Guide me through validating the Docker Compose configuration, building and starting the containers, and checking their status and logs.
+
+6. The backend container failed to start because Python could not find the calculator module. Help me identify the cause and correct the Dockerfile without unnecessarily changing the application.
+
+7. Help me verify that the calculator API still works and that the FastAPI backend can connect to MySQL through the /test-db endpoint.
+
+8. Guide me through testing database persistence by creating a table, inserting a record, removing and recreating the containers, and checking whether the record remains.
+
+9. Help me inspect the running services in Docker Desktop and understand their container status, ports and logs.
+
+10. Guide me through changing the backend host port from 34242 to 34243 while keeping the container port at 5000. Help me test the new port and restore the original port for submission.
