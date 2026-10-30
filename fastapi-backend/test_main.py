@@ -1,0 +1,48 @@
+from fastapi.testclient import TestClient
+from app.main import app
+
+client = TestClient(app)
+
+
+def test_basic_division():
+    r = client.post("/calculate", json={"expr": "30/4"})
+    assert r.status_code == 200
+    data = r.json()
+    assert data["ok"] is True
+    assert abs(data["result"] - 7.5) < 1e-9
+
+
+def test_percent_subtraction():
+    r = client.post("/calculate", json={"expr": "100 - 6%"})
+    assert r.status_code == 200
+    data = r.json()
+    assert data["ok"] is True
+    assert abs(data["result"] - 94.0) < 1e-9
+
+
+def test_standalone_percent():
+    r = client.post("/calculate", json={"expr": "6%"})
+    assert r.status_code == 200
+    data = r.json()
+    assert data["ok"] is True
+    assert abs(data["result"] - 0.06) < 1e-9
+
+
+def test_invalid_expr_returns_ok_false():
+    r = client.post("/calculate", json={"expr": "2**(3"})
+    assert r.status_code == 200
+    data = r.json()
+    assert data["ok"] is False
+    assert "error" in data and data["error"] != ""
+
+def test_history():
+    r = client.get("/history")
+    assert r.status_code == 200
+
+    data = r.json()
+    assert isinstance(data, list)
+    assert len(data) > 0
+
+    assert "timestamp" in data[-1]
+    assert "expr" in data[-1]
+    assert "result" in data[-1]
